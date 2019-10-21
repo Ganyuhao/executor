@@ -4,6 +4,6 @@
 # @Author   : Mr.Gan
 # Software  : PyCharm
 
-'''
+"""
 添加init文件到executor根目录下，使用pylint executor 即可对整个项目文件进行检测
-'''
+"""
