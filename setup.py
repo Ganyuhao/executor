@@ -14,13 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# pylint: disable=missing-module-docstring
 # THIS FILE IS MANAGED BY THE GLOBAL REQUIREMENTS REPO - DO NOT EDIT
 import setuptools
 
 # In python < 3.7.4, a lazy loading of package `pbr` will break
 # setuptools if some other modules registered functions in `atexit`.
 try:
-    import multiprocessing
+    import multiprocessing  # pylint: disable=unused-import
 except ImportError:
     pass
 
