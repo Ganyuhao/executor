@@ -4,3 +4,4 @@
 
 pbr==5.4.3 # MIT
 click==7.0 # MIT
+six==1.12.0 # MIT
