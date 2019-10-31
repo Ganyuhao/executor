@@ -70,3 +70,15 @@ class NetworkException(FuckerTesterException):
 class NetworkBindException(FuckerTesterException):
     """绑定端口冲突或失败导致连接异常"""
     message = "Exception due to failed port status in binding."
+
+
+class DatabaseConnException(FuckerTesterException):
+    """数据库连接异常"""
+    message = "Network reason or port exception; " \
+              "Connection parameter: host %(host)s," \
+              "port %(port)s, name %(name)s"
+
+
+class ServerException(FuckerTesterException):
+    """服务器异常"""
+    message = "Server exception caused by unknown reason"

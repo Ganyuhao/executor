@@ -33,6 +33,13 @@ OPTION = partial(click.option, show_default=True, show_envvar=True)
     help="set port"
 )
 @OPTION(
+    "--database-port",
+    required=True,
+    default=3306,
+    type=PortParamType(),
+    help="set database port"
+)
+@OPTION(
     "--debug",
     default=False,
     is_flag=True,
@@ -47,6 +54,17 @@ OPTION = partial(click.option, show_default=True, show_envvar=True)
     envvar="FUCKER_EXECUTOR_LOG_FILE",
     type=click.types.Path(),
     help="log file path",
+)
+@OPTION(
+    "--database-name",
+    default="root",
+    help="database username",
+    required=True,
+)
+@OPTION(
+    "--database-password",
+    required=False,
+    help="database password"
 )
 def main(**kwargs):
     """
