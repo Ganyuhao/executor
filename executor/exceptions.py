@@ -6,11 +6,9 @@ Includes decorator for re-raising fucker-tester-type exceptions.
 SHOULD include dedicated exception logging.
 """
 
-
 import re
 import logging
 import six
-
 
 LOG = logging.getLogger(__name__)
 
@@ -76,9 +74,34 @@ class DatabaseConnException(FuckerTesterException):
     """数据库连接异常"""
     message = "Network reason or port exception; " \
               "Connection parameter: host %(host)s," \
-              "port %(port)s, name %(name)s"
+              "port %(port)s, username %(name)s"
 
 
-class ServerException(FuckerTesterException):
-    """服务器异常"""
-    message = "Server exception caused by unknown reason"
+class UserConflictException(FuckerTesterException):
+    """添加用户时，发生未知异常"""
+    message = "Add user exception"
+
+
+class AddUserException(FuckerTesterException):
+    """添加用户异常"""
+    message = "User already exists, cannot add again" \
+              "Connection parameter: name: %(name)s, " \
+              "role: %(role)s, phone: %(phone)s, " \
+              "gender: %(gender)s, " \
+              "expires_at: %(expires_at)s, avatar: %(avatar)s," \
+              "enabled: %(enabled)s, access_token: %(access_token)s"
+
+
+class UserNotExistException(FuckerTesterException):
+    """用户不存在异常"""
+    message = "user %(name)s does not exist"
+
+
+class UserAlreadyExistException(FuckerTesterException):
+    """用户已经存在"""
+    message = "user %(identity)s already exist"
+
+
+class IncorrectPasswordException(FuckerTesterException):
+    """密码错误"""
+    message = "Incorrect user password"

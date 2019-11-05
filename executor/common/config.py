@@ -131,3 +131,7 @@ class Manage:
             LOG.debug("|%s:%s|", key.center(17), str(value).center(30))
         LOG.debug("=" * 50)
         LOG.debug("success setup logging config")
+
+    def update_config_items(self, **items):
+        """更新配置信息， 主要用于单元测试目的"""
+        self.items.update(items)

@@ -56,9 +56,15 @@ OPTION = partial(click.option, show_default=True, show_envvar=True)
     help="log file path",
 )
 @OPTION(
-    "--database-name",
+    "--database-username",
     default="root",
     help="database username",
+    required=True,
+)
+@OPTION(
+    "--database-host",
+    default="127.0.0.1",
+    help="database host",
     required=True,
 )
 @OPTION(
