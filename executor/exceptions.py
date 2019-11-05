@@ -70,38 +70,31 @@ class NetworkBindException(FuckerTesterException):
     message = "Exception due to failed port status in binding."
 
 
-class DatabaseConnException(FuckerTesterException):
-    """数据库连接异常"""
-    message = "Network reason or port exception; " \
-              "Connection parameter: host %(host)s," \
-              "port %(port)s, username %(name)s"
+class UnauthorizedException(FuckerTesterException):
+    """认证错误异常"""
+    code = 401
 
 
-class UserConflictException(FuckerTesterException):
-    """添加用户时，发生未知异常"""
-    message = "Add user exception"
+class ForbiddenException(FuckerTesterException):
+    """拒绝访问异常"""
+    code = 403
 
 
-class AddUserException(FuckerTesterException):
-    """添加用户异常"""
-    message = "User already exists, cannot add again" \
-              "Connection parameter: name: %(name)s, " \
-              "role: %(role)s, phone: %(phone)s, " \
-              "gender: %(gender)s, " \
-              "expires_at: %(expires_at)s, avatar: %(avatar)s," \
-              "enabled: %(enabled)s, access_token: %(access_token)s"
+class NotFoundException(FuckerTesterException):
+    """资源缺失异常"""
+    code = 404
 
 
-class UserNotExistException(FuckerTesterException):
+class UserNotExistException(NotFoundException):
     """用户不存在异常"""
-    message = "user %(name)s does not exist"
+    message = "user %(identity)s does not exist"
 
 
-class UserAlreadyExistException(FuckerTesterException):
+class UserAlreadyExistException(ForbiddenException):
     """用户已经存在"""
     message = "user %(identity)s already exist"
 
 
-class IncorrectPasswordException(FuckerTesterException):
+class IncorrectPasswordException(UnauthorizedException):
     """密码错误"""
     message = "Incorrect user password"
