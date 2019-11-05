@@ -40,4 +40,4 @@ jobs:
       - run:
           name: run unittest
           command: |
-            stestr run
+            pipenv run stestr run
