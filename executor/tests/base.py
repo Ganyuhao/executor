@@ -31,7 +31,7 @@ class TestCase(unittest.TestCase):
         "debug": get_config_item("debug", False, bool),
         "log_file": get_config_item("log_file", "executor.log", str),
         "database_username": get_config_item("database_username", "root", str),
-        "database_host": get_config_item("database_host", "10.34.130.44", str),
+        "database_host": get_config_item("database_host", "127.0.0.1", str),
         "database_password": get_config_item("database_password", "root", str),
     }
 
