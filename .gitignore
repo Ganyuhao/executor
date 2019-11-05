@@ -107,3 +107,4 @@ venv.bak/
 /ChangeLog
 /Pipfile.lock
 /Pipfile
+/.stestr/
