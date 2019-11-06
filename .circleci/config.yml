@@ -42,3 +42,9 @@ jobs:
           name: run unittest
           command: |
             pipenv run stestr run
+      - run:
+          name: report coverage
+          command: |
+            export COVERALLS_REPO_TOKEN=Phto4xcJLYiucsZeWP1JBqluKgJYj6YJn
+            pipenv run coverage run --source=executor/ setup.py test
+            pipenv run coveralls
