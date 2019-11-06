@@ -21,7 +21,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-test-dependencies-{{ checksum "test-requirements.txt" }}
+            - dependencies-{{ checksum "test-requirements.txt" }}-{{ checksum "requirements.txt" }}
             - v1-test-dependencies-
       - run:
           name: install dependencies
@@ -31,7 +31,7 @@ jobs:
             pipenv install -r test-requirements.txt
             pipenv install -r requirements.txt
       - save_cache:
-          key: v1-test-dependencies-{{ checksum "test-requirements.txt" }}
+          key: dependencies-{{ checksum "test-requirements.txt" }}-{{ checksum "requirements.txt" }}
           paths:
             - ./venv
       - run:

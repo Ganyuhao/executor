@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/fucker-tester/executor/tree/master.svg?style=svg)](https://circleci.com/gh/fucker-tester/executor/tree/master)
-
+[![Coverage Status](https://coveralls.io/repos/github/fucker-tester/executor/badge.svg)](https://coveralls.io/github/fucker-tester/executor)
 # 简介
 Fucker是一款集成Web页面测试、接口测试、APP测试、性能测试的多功能，高效率，易使用
 的自动化测试平台。支持跨平台，高并发，数据收集，一键部署，生成报表等
