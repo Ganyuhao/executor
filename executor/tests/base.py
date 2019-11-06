@@ -5,8 +5,12 @@
 """
 import os
 import unittest
+from datetime import datetime
 
+from executor.common.context import Context
 from executor.common.config import Manage
+from executor.database.manage import Database
+from executor.database.models.user import Users
 
 
 def get_config_item(item, default, type_c):
@@ -31,16 +35,12 @@ class TestCase(unittest.TestCase):
         "debug": get_config_item("debug", False, bool),
         "log_file": get_config_item("log_file", "executor.log", str),
         "database_username": get_config_item("database_username", "root", str),
-        "database_host": get_config_item("database_host", "127.0.0.1", str),
+        "database_host": get_config_item("database_host", "10.34.130.44", str),
         "database_password": get_config_item("database_password", "root", str),
     }
 
     @classmethod
     def setUpClass(cls):
-        """
-        重载配置信息
-        """
-        Manage(**cls.config_items)
-
-    def setUp(self):
-        self.conf = Manage()
+        conf = Manage(**cls.config_items)
+        conf.update_config_items(**cls.config_items)
+        cls.conf = Manage()
