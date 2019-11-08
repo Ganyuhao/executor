@@ -36,6 +36,7 @@ class FuckerTesterException(Exception):
                 self.kwargs["code"] = self.code
             except AttributeError:
                 LOG.exception("FuckerTesterException 缺少属性 code")
+                raise AttributeError
         for k, value in self.kwargs.items():
             if isinstance(value, Exception):
                 self.kwargs[k] = six.text_type(value)
@@ -50,6 +51,7 @@ class FuckerTesterException(Exception):
                 for name, value in kwargs.items():
                     LOG.error("%(name)s: %(value)s", {
                         'name': name, 'value': value})
+                raise AttributeError
 
         elif isinstance(message, Exception):
             message = six.text_type(message)
@@ -98,3 +100,8 @@ class UserAlreadyExistException(ForbiddenException):
 class IncorrectPasswordException(UnauthorizedException):
     """密码错误"""
     message = "Incorrect user password"
+
+
+class CaseDataDoesNotExist(FuckerTesterException):
+    """测试用例数据不存在"""
+    message = "test case name %(name)s Data does not exist"
