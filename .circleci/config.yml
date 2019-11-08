@@ -4,25 +4,31 @@
 #
 version: 2
 jobs:
+  # 开始build过程
   build:
+    # 配置需要的docker容器， 多个容器会处于同一个网络空间，可以通过127.0.0.1互相访问
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
+      # 启动一个Python容器，容器内通过环境变量设置数据库IP和密码
       - image: circleci/python:3.7.4
         environment:
           FUCKER_EXECUTOR_DATABASE_HOST: 127.0.0.1
           FUCKER_EXECUTOR_DATABASE_PASSWORD: root
+      # 启动一个数据库容器， 并通过环境变量配置数据库密码
       - image: circleci/mariadb
         environment:
           MYSQL_ROOT_PASSWORD: root
-
+    # 指定工作路径， 所有的命令都会在该路径执行
     working_directory: ~/executor
+    # build的步骤
     steps:
+      # 获取github上的源码
       - checkout
+      # 恢复上一次构建的缓存，这里主要是获取上一次venv目录内容，加快pip执行过程
       - restore_cache:
           keys:
             - dependencies-{{ checksum "test-requirements.txt" }}-{{ checksum "requirements.txt" }}
             - v1-test-dependencies-
+      # 安装依赖， 就是直接安装requirements.txt 和 test-requirements.txt中定义的依赖， 使用pipenv管理依赖，pipenv怎么用可以查手册
       - run:
           name: install dependencies
           command: |
@@ -30,18 +36,22 @@ jobs:
             pipenv install
             pipenv install -r test-requirements.txt
             pipenv install -r requirements.txt
+      # 缓存venv目录，方便下次重复使用
       - save_cache:
           key: dependencies-{{ checksum "test-requirements.txt" }}-{{ checksum "requirements.txt" }}
           paths:
             - ./venv
+      # 执行pylint executor进行静态检查
       - run:
           name: run pylint
           command: |
             pipenv run pylint executor
+      # 执行stestr run进行单元测试
       - run:
           name: run unittest
           command: |
             pipenv run stestr run
+      # 生成单元测试覆盖率报告， 并上传到coveralls
       - run:
           name: report coverage
           command: |
