@@ -17,7 +17,7 @@ from executor.common.config import Manage
 from executor.database.models.user import Users
 from executor import exceptions
 from executor.common.utils import retry_on_exception
-from executor.database.models import BASE
+from executor.database.models.base import Model
 
 CONF = Manage()
 LOG = logging.getLogger(__name__)
@@ -47,7 +47,7 @@ class Database:
             pool_timeout=30,
             pool_recycle=-1
         )
-        BASE.metadata.create_all(bind=self.engine)
+        Model.metadata.create_all(bind=self.engine)
         self.session_maker = sessionmaker(bind=self.engine)
 
     def session(self):
@@ -66,6 +66,7 @@ class Database:
                 isolation_level="AUTOCOMMIT").connect() as connection:
             connection.execute(
                 "CREATE DATABASE IF NOT EXISTS %s" % self.database_name)
+            connection.execute("use %s" % self.database_name)
 
     def _get_session(self, ctx):
         """获取session"""

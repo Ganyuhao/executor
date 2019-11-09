@@ -9,7 +9,7 @@ from executor.tests.base import TestCase
 
 
 class DatabaseTestCase(TestCase):
-    database_name = "fucker_tester_test"
+    database_name = "fucker_tester_tests"
     db = None
     context = None
 

@@ -5,7 +5,7 @@ test_create_user:
   role: admin
   phone: 01234567891
   gender: man
-  create_at: now
+  create_at: 2019-11-13 12:22:44
   avatar: /path/test_create_user/avatar.jpg
   enabled: true
   access_token: faker_token
@@ -17,7 +17,7 @@ test_create_same_name_user:
     role: admin
     phone: 01234567892
     gender: man
-    create_at: now
+    create_at: 2019-11-13 12:23:44
     avatar: /path/test_create_same_name_user/avatar.jpg
     enabled: true
     access_token: faker_token
@@ -28,7 +28,7 @@ test_create_same_name_user:
     role: admin
     phone: 01234567893
     gender: man
-    create_at: now
+    create_at: 2019-11-13 12:24:44
     avatar: path/test_create_same_name_user/avatar.jpg
     enabled: true
     access_token: faker_token
@@ -40,7 +40,7 @@ test_create_same_phone_user:
     role: admin
     phone: 01234567894
     gender: man
-    create_at: now
+    create_at: 2019-11-13 12:25:44
     avatar: /path/test_create_same_name_user/avatar.jpg
     enabled: true
     access_token: faker_token
@@ -51,7 +51,7 @@ test_create_same_phone_user:
     role: admin
     phone: 01234567894
     gender: man
-    create_at: now
+    create_at: 2019-11-13 12:26:44
     avatar: /path/test_create_same_name_user/avatar.jpg
     enabled: true
     access_token: faker_token
@@ -62,7 +62,7 @@ test_get_user_by_id:
   role: admin
   phone: 01234567895
   gender: man
-  create_at: now
+  create_at: 2019-11-13 12:27:44
   avatar: /path/test_get_user_by_id/avatar.jpg
   enabled: true
   access_token: faker_token
@@ -73,7 +73,7 @@ test_get_user_by_name:
   role: admin
   phone: 01234567896
   gender: man
-  create_at: now
+  create_at: 2019-11-13 12:28:44
   avatar: /path/test_get_user_by_name/avatar.jpg
   enabled: true
   access_token: faker_token
@@ -84,7 +84,7 @@ test_get_user_by_phone:
   role: admin
   phone: 01234567897
   gender: man
-  create_at: now
+  create_at: 2019-11-13 12:29:44
   avatar: /path/test_get_user_by_phone/avatar.jpg
   enabled: true
   access_token: faker_token
@@ -95,7 +95,7 @@ test_get_user_with_incorrect_password:
   role: admin
   phone: 01234567898
   gender: man
-  create_at: now
+  create_at: 2019-11-13 12:30:44
   avatar: /path/test_get_user_with_incorrect_password/avatar.jpg
   enabled: true
   access_token: faker_token

@@ -4,10 +4,10 @@
 """使用ORM模型定义USER表"""
 
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
-from executor.database.models import BASE
+from executor.database.models.base import Model
 
 
-class Users(BASE):
+class Users(Model):
     """user表ORM模型"""
     __tablename__ = "users"
     id = Column(Integer, autoincrement=True, primary_key=True, unique=True)

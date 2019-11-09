@@ -72,6 +72,11 @@ class NetworkBindException(FuckerTesterException):
     message = "Exception due to failed port status in binding."
 
 
+class BadRequestException(FuckerTesterException):
+    """错误的请求格式"""
+    code = 400
+
+
 class UnauthorizedException(FuckerTesterException):
     """认证错误异常"""
     code = 401
@@ -102,6 +107,6 @@ class IncorrectPasswordException(UnauthorizedException):
     message = "Incorrect user password"
 
 
-class CaseDataDoesNotExist(FuckerTesterException):
-    """测试用例数据不存在"""
-    message = "test case name %(name)s Data does not exist"
+class MissNecessaryFields(BadRequestException):
+    """数据表字段缺失"""
+    message = "missing necessary database field: %(field)s"

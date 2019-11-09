@@ -35,7 +35,7 @@ class TestCase(unittest.TestCase):
         "log_file": get_config_item("log_file", tempfile.mktemp(), str),
         "database_username": get_config_item("database_username", "root", str),
         "database_host": get_config_item("database_host", "127.0.0.1", str),
-        "database_password": get_config_item("database_password", "root",
+        "database_password": get_config_item("database_password", "",
                                              str),
     }
     data_file_path = None
