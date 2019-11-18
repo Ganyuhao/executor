@@ -7,12 +7,15 @@ import logging
 from functools import partial
 
 import click
+from flask import Flask
 
 from executor.common.config import Manage, IpAddressParamType, PortParamType
 
 LOG = logging.getLogger(__name__)
 # 将click.option转换为偏函数，强制添加两个默认参数
 OPTION = partial(click.option, show_default=True, show_envvar=True)
+
+APP = Flask(__name__)
 
 
 @click.command(name="fucker-executor")
@@ -80,6 +83,10 @@ def main(**kwargs):
     conf = Manage(**kwargs)
     conf.setup_log()
     LOG.info("start server on host: %s, port :%s", conf.host, conf.port)
+    APP.run(
+        host=conf.host,
+        port=conf.port,
+    )
 
 
 if __name__ == "__main__":
