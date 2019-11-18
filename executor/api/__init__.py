@@ -3,3 +3,6 @@
 # @Time     : 2019/11/18 9:21
 # @Author   : Mr.Gan
 # Software  : PyCharm
+
+from flask import Flask
+APP = Flask(__name__)

@@ -7,27 +7,22 @@
 from flask_restful import fields
 
 from executor.database.models.user import Users
-from executor.database.manage import Database
-from executor.common.context import Context
 from executor.exceptions import UserAlreadyExistException
-from executor.api.manage import Common
-
-# 获取 数据库 ORM 对象 与 上下文 对象
-DB = Database()
-CONTEXT = Context(None, DB.session(), None)
+from executor.api.base import RestfulBase
+from executor.api.base import G
 
 
-class UserApi(Common):
+class UserApi(RestfulBase):
 
     # 扩充父级解析器
-    parser = Common.parser.copy()
+    parser = RestfulBase.parser.copy()
     # 参数解析
     parser.add_argument('username', required=True, type=str)
     parser.add_argument('password', required=True, type=str)
     parser.add_argument('role', required=True, type=str)
     parser.add_argument('phone', required=True, type=str)
     parser.add_argument('gender', type=str)
-    parser.add_argument('create_at', required=True, type=fields.datetime)
+    parser.add_argument('create_at', required=True, type=fields.DateTime)
     parser.add_argument('avatar', type=str)
     parser.add_argument('enabled', required=True, type=bool)
     parser.add_argument('access_token', type=str)
@@ -54,10 +49,10 @@ class UserApi(Common):
         user = Users.from_json(args)
         try:
             # 捕捉用户已存在异常，返回到客户端
-            user = DB.create_user(CONTEXT, user)
+            user = G.db.create_user(G.context, user)
         except UserAlreadyExistException as error:
-            CONTEXT.session.close()
+            G.context.session.close()
             return self.return_false_json(msg=error)
         else:
-            CONTEXT.session.commit()
+            G.context.session.commit()
             return self.return_true_json(user)
