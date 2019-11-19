@@ -12,6 +12,7 @@ from flask import g
 from executor.database.manage import Database
 from executor.common.context import Context
 from executor.api import APP
+from executor.exceptions import *
 
 # 钩子，用于添加context
 G = g
@@ -28,18 +29,37 @@ class RestfulBase(Resource):
     @staticmethod
     @APP.after_request
     def return_true_json(response, return_format=None):
-        """在请求处理完成后，进行参数解析返回"""
-        if isinstance(response, str):
-            pass
-
-    @staticmethod
-    @APP.before_first_request
-    def get_database_conn():
-        """连接数据库，添加 db 对象到 钩子中"""
-        G.db = Database()
+        """请求没有异常抛出，则提交事务,
+        事务提交失败，则回滚"""
+        try:
+            G.context.session.commit()
+        except (Exception,):
+            G.context.session.rollback()
+        finally:
+            G.context.session.close()
 
     @staticmethod
     @APP.before_request
     def get_context():
         """每次请求前运行，添加 context 对象到 钩子中"""
+        db = Database()
+        G.db = db
         G.context = Context(None, G.db.session(), None)
+
+    @staticmethod
+    @APP.errorhandler(500)
+    def server_error(error):
+        return "错错错"
+
+    @staticmethod
+    @APP.errorhandler(NotFoundException)
+    def not_found(error):
+        response = dict(status=NotFoundException.code, message=NotFoundException.message)
+        return jsonify(response), 404
+
+    @staticmethod
+    @APP.errorhandler(ForbiddenException)
+    def user_exit(error):
+        response = dict(status=ForbiddenException.code, message=
+                        "bu neng fang wen")
+        return jsonify(response), 403

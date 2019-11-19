@@ -4,7 +4,7 @@
 # @Author   : Mr.Gan
 # Software  : PyCharm
 
-from flask_restful import fields
+from flask_restful import fields, abort
 
 from executor.database.models.user import Users
 from executor.exceptions import UserAlreadyExistException
@@ -13,7 +13,7 @@ from executor.api.base import G
 
 
 class UserApi(RestfulBase):
-
+    """:argument： User API"""
     # 扩充父级解析器
     parser = RestfulBase.parser.copy()
     # 参数解析
@@ -50,9 +50,7 @@ class UserApi(RestfulBase):
         try:
             # 捕捉用户已存在异常，返回到客户端
             user = G.db.create_user(G.context, user)
-        except UserAlreadyExistException as error:
-            G.context.session.close()
-            return self.return_false_json(msg=error)
+        except UserAlreadyExistException:
+            abort(403)
         else:
-            G.context.session.commit()
             return self.return_true_json(user)
