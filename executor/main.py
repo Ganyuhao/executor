@@ -72,6 +72,7 @@ OPTION = partial(click.option, show_default=True, show_envvar=True)
 @OPTION(
     "--database-password",
     required=False,
+    default="root",
     help="database password"
 )
 def main(**kwargs):
@@ -83,8 +84,8 @@ def main(**kwargs):
     conf = Manage()
     conf.update_config_items(**kwargs)
     conf.setup_log()
-    LOG.info("start server on host: %s, port :%s", conf.host, conf.port)
     register_resource(app)
+    LOG.info("start server on host: %s, port :%s", conf.host, conf.port)
     app.run(conf.host, conf.port)
 
 

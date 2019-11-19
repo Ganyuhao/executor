@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""User Resource"""
 from executor.api.base import Restful
-
-from executor.exceptions import MissNecessaryFields
 
 
 class Users(Restful):
     rule = "users"
 
-    def get(self):
+    def get(self, req):
         """list users"""
-        raise MissNecessaryFields(field="unknown")
+        ctx = req.ctx
+        return ctx.db.list_users(ctx)
