@@ -93,7 +93,6 @@ class Manage:
             setattr(cls, instance_key, super(Manage, cls).__new__(cls))
         return getattr(cls, instance_key)
 
-
     # 获取配置项的值
     def __getattr__(self, item):
         item = str(item).lower()

@@ -17,30 +17,31 @@ class UserApi(RestfulBase):
     # 扩充父级解析器
     parser = RestfulBase.parser.copy()
     # 参数解析
-    parser.add_argument('username', required=True, type=str)
-    parser.add_argument('password', required=True, type=str)
-    parser.add_argument('role', required=True, type=str)
-    parser.add_argument('phone', required=True, type=str)
-    parser.add_argument('gender', type=str)
-    parser.add_argument('create_at', required=True, type=fields.DateTime)
-    parser.add_argument('avatar', type=str)
-    parser.add_argument('enabled', required=True, type=bool)
-    parser.add_argument('access_token', type=str)
-    parser.add_argument('extra', type=str)
+    parser.add_argument("username", required=True, type=str)
+    parser.add_argument("password", required=True, type=str)
+    parser.add_argument("role", required=True, type=str)
+    parser.add_argument("phone", required=True, type=str)
+    parser.add_argument("gender", type=str)
+    parser.add_argument("create_at", required=True, type=fields.DateTime)
+    parser.add_argument("avatar", type=str)
+    parser.add_argument("enabled", required=True, type=bool)
+    parser.add_argument("access_token", type=str)
+    parser.add_argument("extra", type=str)
 
     # 定义参数类型
     resource_full_fields = {
-        'id': fields.Integer,
-        'username': fields.String,
-        'password': fields.String,
-        'role': fields.String,
-        'phone': fields.String,
-        'gender': fields.String,
-        'create_at': fields.DateTime,
-        'avatar': fields.String,
-        'enabled': fields.Boolean,
-        'access_token': fields.String,
-        'extra': fields.String
+        "id": fields.Integer,
+        "user_id": fields.String,
+        "username": fields.String,
+        "password": fields.String,
+        "role": fields.String,
+        "phone": fields.String,
+        "gender": fields.String,
+        "create_at": fields.DateTime,
+        "avatar": fields.String,
+        "enabled": fields.Boolean,
+        "access_token": fields.String,
+        "extra": fields.String
     }
 
     def post(self):

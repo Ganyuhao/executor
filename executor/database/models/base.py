@@ -11,6 +11,7 @@ from datetime import datetime
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.types import String, Integer, DateTime, Boolean
+from sqlalchemy import Column
 
 from executor.exceptions import MissNecessaryFields
 
@@ -86,3 +87,10 @@ class _ModelBase:
 
 
 Model = declarative_base(cls=_ModelBase)
+
+
+class GeneralModel:
+    """通用模型"""
+    id = Column(Integer, autoincrement=True, primary_key=True, unique=True)
+    create_at = Column(DateTime, nullable=True)
+    update_at = Column(DateTime, nullable=True)
