@@ -7,9 +7,14 @@ import logging
 from functools import partial
 
 import click
+from flask import Flask
 
 from executor.common.config import Manage, IpAddressParamType, PortParamType
+<<<<<<< HEAD
 from executor.api import APP
+=======
+from executor.api.register import register_resource
+>>>>>>> 47ec839853b7e42d05d3b3033889de76e9947058
 
 LOG = logging.getLogger(__name__)
 # 将click.option转换为偏函数，强制添加两个默认参数
@@ -71,6 +76,7 @@ OPTION = partial(click.option, show_default=True, show_envvar=True)
 @OPTION(
     "--database-password",
     required=False,
+    default="root",
     help="database password"
 )
 def main(**kwargs):
@@ -78,13 +84,20 @@ def main(**kwargs):
     程序入口，返回配置参数到单例类 Manage, LogConfig类接收debug状态，如果
     状态为True, 则日志系统会设置为 debug级别输入，否则默认为 INFO
     """
-    conf = Manage(**kwargs)
+    app = Flask(__name__)
+    conf = Manage()
+    conf.update_config_items(**kwargs)
     conf.setup_log()
+    register_resource(app)
     LOG.info("start server on host: %s, port :%s", conf.host, conf.port)
+<<<<<<< HEAD
     APP.run(
         host=conf.host,
         port=conf.port,
     )
+=======
+    app.run(conf.host, conf.port)
+>>>>>>> 47ec839853b7e42d05d3b3033889de76e9947058
 
 
 if __name__ == "__main__":

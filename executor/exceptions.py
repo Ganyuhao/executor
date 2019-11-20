@@ -10,6 +10,8 @@ import re
 import logging
 import six
 
+from werkzeug.exceptions import HTTPException
+
 LOG = logging.getLogger(__name__)
 
 
@@ -17,7 +19,7 @@ class Error(Exception):
     """ERROR异常基类"""
 
 
-class FuckerTesterException(Exception):
+class FuckerTesterException(HTTPException):
     """Base fucker-tester Exception
     To correctly use this class, inherit from it and define
     a 'message' property. That message will get printf'd

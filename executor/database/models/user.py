@@ -9,6 +9,7 @@ from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from executor.database.models.base import Model
 from sqlalchemy.orm import relationship
 
+
 # 生成 uuid
 def get_uuid():
     return uuid.uuid4().hex
