@@ -1,6 +1,6 @@
 ---
 test_create_user:
-  name: test_create_user
+  username: test_create_user
   password: 123456
   role: admin
   phone: 01234567891
@@ -12,7 +12,7 @@ test_create_user:
   extra: {"email": "498357324@qq.com"}
 test_create_same_name_user:
   test_create_same_name_user1:
-    name: test_create_same_name_user
+    username: test_create_same_name_user
     password: 123456
     role: admin
     phone: 01234567892
@@ -23,7 +23,7 @@ test_create_same_name_user:
     access_token: faker_token
     extra: {"email": "498357324@qq.com"}
   test_create_same_name_user2:
-    name: test_create_same_name_user
+    username: test_create_same_name_user
     password: 123456
     role: admin
     phone: 01234567893
@@ -35,7 +35,7 @@ test_create_same_name_user:
     extra: {"email": "498357324@qq.com"}
 test_create_same_phone_user:
   test_create_same_phone_user1:
-    name: test_create_same_phone_user1
+    username: test_create_same_phone_user1
     password: 123456
     role: admin
     phone: 01234567894
@@ -46,7 +46,7 @@ test_create_same_phone_user:
     access_token: faker_token
     extra: {"email": "498357324@qq.com"}
   test_create_same_phone_user2:
-    name: test_create_same_phone_user2
+    username: test_create_same_phone_user2
     password: 123456
     role: admin
     phone: 01234567894
@@ -57,7 +57,7 @@ test_create_same_phone_user:
     access_token: faker_token
     extra: {"email": "498357324@qq.com"}
 test_get_user_by_id:
-  name: test_get_user_by_id
+  username: test_get_user_by_id
   password: 123456
   role: admin
   phone: 01234567895
@@ -68,7 +68,7 @@ test_get_user_by_id:
   access_token: faker_token
   extra: {"email": "498357324@qq.com"}
 test_get_user_by_name:
-  name: test_get_user_by_name
+  username: test_get_user_by_name
   password: 123456
   role: admin
   phone: 01234567896
@@ -79,7 +79,7 @@ test_get_user_by_name:
   access_token: faker_token
   extra: {"email": "498357324@qq.com"}
 test_get_user_by_phone:
-  name: test_get_user_by_phone
+  username: test_get_user_by_phone
   password: 123456
   role: admin
   phone: 01234567897
@@ -90,7 +90,7 @@ test_get_user_by_phone:
   access_token: faker_token
   extra: {"email": "498357324@qq.com"}
 test_get_user_with_incorrect_password:
-  name: test_get_user_with_incorrect_password
+  username: test_get_user_with_incorrect_password
   password: 123456
   role: admin
   phone: 01234567898

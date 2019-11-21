@@ -22,12 +22,11 @@ class DatabaseTestCase(TestCase):
             cls.db.session(),
             user=Users(
                 id=1,
-                name="admin",
+                username="admin",
                 password="123456",
                 role="admin",
                 phone="13525847457",
                 gender="man",
-                create_at=datetime.now(),
                 avatar="/path/admin/avatar.jpg",
                 enabled=True,
                 access_token="faker_token",

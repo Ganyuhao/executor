@@ -81,9 +81,9 @@ class Database:
         # 调用查询用户函数，如果抛出用户不存在异常，则开始添加用户
         if self.user_exist(ctx, user_model):
             raise exceptions.UserAlreadyExistException(
-                identity=user_model.name)
+                identity=user_model.username)
         session.add(user_model)
-        return self.get_user(ctx, user_model.name, user_model.password)
+        return self.get_user(ctx, user_model.username, user_model.password)
 
     @retry_on_exception(InvalidRequestError)
     def list_user(self, ctx):
@@ -96,7 +96,7 @@ class Database:
         condition = or_(
             Users.id == user_model.id,
             Users.phone == user_model.phone,
-            Users.name == user_model.name,
+            Users.username == user_model.username,
         )
         return self._get_session(ctx).query(Users).filter(
             condition).count() == 1
@@ -110,7 +110,7 @@ class Database:
         condition = or_(
             Users.id == user_identity,
             Users.phone == user_identity,
-            Users.name == user_identity,
+            Users.username == user_identity,
         )
         user = self._get_session(ctx).query(Users).filter(condition).first()
         if not user:

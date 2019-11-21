@@ -61,8 +61,8 @@ class TestOperatorUser(DatabaseTestCase):
         n_user = self.db.create_user(self.context, user)
         self.assertEqual(
             n_user,
-            self.db.get_user(self.context, user.name, user.password))
-        self.db.delete_user(self.context, n_user.name, n_user.password)
+            self.db.get_user(self.context, user.username, user.password))
+        self.db.delete_user(self.context, n_user.username, n_user.password)
 
     def test_get_user_by_phone(self):
         user = Users.from_json(

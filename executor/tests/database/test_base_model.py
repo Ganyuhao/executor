@@ -13,7 +13,7 @@ class FakeModel(Model):
     __tablename__ = "fake_table"
     id = Column(Integer, autoincrement=True, primary_key=True, unique=True)
     age = Column(Integer)
-    name = Column(String(64), nullable=False, unique=True)
+    username = Column(String(64), nullable=False, unique=True)
     password = Column(String(32))
     create_at = Column(DateTime, nullable=False)
     update_at = Column(DateTime)
@@ -27,7 +27,7 @@ class TestBaseDataModel(DatabaseTestCase):
         expect = {
             "id": 1,
             "age": 5,
-            "name": "faker",
+            "username": "faker",
             "password": "abc",
             "create_at": datetime.now(),
             "update_at": datetime.now(),
@@ -41,7 +41,7 @@ class TestBaseDataModel(DatabaseTestCase):
         expect = {
             "id": 1,
             "age": 5,
-            "name": "faker",
+            "username": "faker",
             "password": "abc",
             "create_at": datetime.now(),
             "update_at": datetime.now(),
@@ -66,7 +66,7 @@ class TestBaseDataModel(DatabaseTestCase):
     def test_miss_primary_key(self):
         expect = {
             "age": 5,
-            "name": "faker",
+            "username": "faker",
             "password": "abc",
             "create_at": datetime.now(),
             "update_at": datetime.now(),
@@ -81,7 +81,7 @@ class TestBaseDataModel(DatabaseTestCase):
         expect = {
             "id": 2,
             "age": 5,
-            "name": "faker",
+            "username": "faker",
             "password": "abc",
             "create_at": "2019-10-12 11:23:25",
             "update_at": datetime.now(),
