@@ -20,7 +20,7 @@ class HookDispatcher:
     def append_hook(self, hook):
         """append hook for dispatcher"""
         assert isinstance(hook, Hook)
-        LOG.debug("append hook %s" % hook.name)
+        LOG.debug("append hook %s", hook.name)
         self.hooks.append(hook)
 
     def setup_app(self, app):

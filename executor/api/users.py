@@ -17,14 +17,7 @@ class UsersApi(Restful):
     # 参数解析
     parser.add_argument('username', required=True, type=str)
     parser.add_argument('password', required=True, type=str)
-    parser.add_argument('role', required=True, type=str)
     parser.add_argument('phone', required=True, type=str)
-    parser.add_argument('gender', type=str)
-    parser.add_argument('create_at', required=True, type=str)
-    parser.add_argument('avatar', type=str)
-    parser.add_argument('enabled', required=True, type=bool)
-    parser.add_argument('access_token', type=str)
-    parser.add_argument('extra', type=str)
 
     # 定义参数类型
     resource_full_fields = {
@@ -38,10 +31,10 @@ class UsersApi(Restful):
         'avatar': fields.String,
         'enabled': fields.Boolean,
         'access_token': fields.String,
-        'extra': fields.String
     }
 
-    def get(self, req):
+    @classmethod
+    def get(cls, req):
         """list users"""
         ctx = req.ctx
         return ctx.db_base.list_users(ctx)
