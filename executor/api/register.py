@@ -6,22 +6,22 @@ import logging
 from flask import request
 from flask_restful import Api
 
-from executor.api.users import Users
+from executor.api.users import UsersApi
 from executor.exceptions import FuckerTesterException
 from executor.api.hooks import HookDispatcher, ContextHook
 
 LOG = logging.getLogger(__name__)
 
 
-def _url_not_found(e):
+def _url_not_found(error):
     """unknown url path"""
     return {"error": "you request url path %s not found" % request.path}, 404
 
 
-def _del_fucker_exception(e):
+def _del_fucker_exception(error):
     """raise Fucker exception"""
-    assert isinstance(e, FuckerTesterException)
-    return {"error": e.msg}, e.code
+    assert isinstance(error, FuckerTesterException)
+    return {"error": error.msg}, error.code
 
 
 def register_resource(app):
@@ -40,6 +40,6 @@ def register_resource(app):
     # setup api handler
     LOG.debug("add app api resource")
     api = Api(app, prefix="/api")
-    Users.setup(api)
+    UsersApi.setup(api)
 
     LOG.debug("register flask app done")

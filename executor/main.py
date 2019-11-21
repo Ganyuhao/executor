@@ -10,11 +10,9 @@ import click
 from flask import Flask
 
 from executor.common.config import Manage, IpAddressParamType, PortParamType
-<<<<<<< HEAD
-from executor.api import APP
-=======
+
 from executor.api.register import register_resource
->>>>>>> 47ec839853b7e42d05d3b3033889de76e9947058
+
 
 LOG = logging.getLogger(__name__)
 # 将click.option转换为偏函数，强制添加两个默认参数
@@ -90,14 +88,9 @@ def main(**kwargs):
     conf.setup_log()
     register_resource(app)
     LOG.info("start server on host: %s, port :%s", conf.host, conf.port)
-<<<<<<< HEAD
-    APP.run(
-        host=conf.host,
-        port=conf.port,
-    )
-=======
+    # 解决中文编码问题
+    app.config.update(RESTFUL_JSON=dict(ensure_ascii=False))
     app.run(conf.host, conf.port)
->>>>>>> 47ec839853b7e42d05d3b3033889de76e9947058
 
 
 if __name__ == "__main__":

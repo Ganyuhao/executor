@@ -35,8 +35,8 @@ class HookDispatcher:
 
 
 class Hook:
-    name = "hook"
     """Basic class for Hook"""
+    name = "hook"
 
     def before_request(self):
         """before request"""
@@ -51,19 +51,22 @@ class Hook:
 class ContextHook(Hook):
     """setup context for each request"""
 
-    db = None
+    db_base = None
     name = "context"
 
     def __init__(self):
-        self.db = Database()
+        self.db_base = Database()
 
     def before_request(self):
         """set context for each request"""
-        request.ctx = Context(request, self.db.session())
+        request.ctx = Context(request, self.db_base.session())
+        # 解决处理请求时 ctx 没有 db 属性问题
+        setattr(Context, "db_base", self.db_base)
 
     def after_request(self, resp):
         """if request success, commit db session"""
         request.ctx.session.commit()
+        return resp
 
     def teardown_request(self, exc):
         """if raise exception, just rollback and close session"""

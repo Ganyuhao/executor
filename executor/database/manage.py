@@ -97,7 +97,6 @@ class Database:
             Users.id == user_model.id,
             Users.phone == user_model.phone,
             Users.name == user_model.name,
-            Users.user_id == user_model.user_id,
         )
         return self._get_session(ctx).query(Users).filter(
             condition).count() == 1
@@ -112,7 +111,6 @@ class Database:
             Users.id == user_identity,
             Users.phone == user_identity,
             Users.name == user_identity,
-            Users.user_id == user_identity,
         )
         user = self._get_session(ctx).query(Users).filter(condition).first()
         if not user:
