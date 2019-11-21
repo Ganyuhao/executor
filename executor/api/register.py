@@ -15,8 +15,7 @@ LOG = logging.getLogger(__name__)
 
 def _url_not_found(error):
     """unknown url path"""
-    error.msg = "you request url path %s not found"
-    return {"error": error.msg % request.path}, 404
+    return {"error": "you request url path %s not found" % request.path}, 404
 
 
 def _del_fucker_exception(error):

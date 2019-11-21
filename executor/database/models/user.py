@@ -7,6 +7,7 @@ from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from executor.database.models.base import Model
+from executor.common.constant import ROLE_MEMBER
 
 
 class Users(Model):
@@ -15,7 +16,7 @@ class Users(Model):
     id = Column(Integer, autoincrement=True, primary_key=True, unique=True)
     username = Column(String(64), nullable=False, unique=True)
     password = Column(String(64), nullable=False)
-    role = Column(String(32), nullable=True, default="member")
+    role = Column(String(32), nullable=True, default=ROLE_MEMBER)
     phone = Column(String(16), unique=True, index=True, nullable=False)
     gender = Column(String(32), nullable=True)
     create_at = Column(DateTime, default=datetime.now(), nullable=True)

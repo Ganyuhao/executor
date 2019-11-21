@@ -33,8 +33,7 @@ class UsersApi(Restful):
         'access_token': fields.String,
     }
 
-    @classmethod
-    def get(cls, req):
+    def get(self, req):
         """list users"""
         ctx = req.ctx
         return ctx.db_base.list_users(ctx)
