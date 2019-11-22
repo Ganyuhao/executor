@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import json
-from datetime import datetime
-
+"""user表测试"""
 from executor.database.models.user import Users
 from executor.tests.database.base import DatabaseTestCase
 from executor.exceptions import UserAlreadyExistException, \
