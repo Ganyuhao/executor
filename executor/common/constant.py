@@ -6,5 +6,8 @@
 
 """常量存放"""
 
-ROLE_MEMBER = "member"
 ROLE_ADMIN = "admin"
+ROLE_VIP = "vip"
+ROLE_MEMBER = "member"
+ROLE_GUEST = "guest"
+ROLES = (ROLE_ADMIN, ROLE_VIP, ROLE_MEMBER, ROLE_GUEST)
