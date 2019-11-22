@@ -17,15 +17,15 @@ def enforce(required=constant.ROLE_GUEST):
         @wraps(handler)
         def _inner(self, req, *args, **kwargs):
             # 没有上下文，用户未登陆， 且API不是访客权限，直接拒绝访问
-            if req.ctx is None and required != constant.ROLE_GUEST:
+            if not hasattr(req, "ctx") and required != constant.ROLE_GUEST:
                 raise exceptions.AccessDeniedException()
             current_user = req.ctx.user
             # 当前用户未登录， API需权限， 拒接访问
             if not current_user and required != constant.ROLE_GUEST:
                 raise exceptions.AccessDeniedException()
-            user_role = current_user.role
+            user_role = getattr(current_user, "role", constant.ROLE_GUEST)
             if verify_permission(user_role, required):
-                return handler(req, *args, **kwargs)
+                return handler(self, req, *args, **kwargs)
             # 当前用户权限不足，拒接访问
             raise exceptions.AccessDeniedException()
 
