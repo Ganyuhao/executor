@@ -6,8 +6,25 @@
 
 """常量存放"""
 
-ROLE_ADMIN = "admin"
-ROLE_VIP = "vip"
-ROLE_MEMBER = "member"
-ROLE_GUEST = "guest"
-ROLES = (ROLE_ADMIN, ROLE_VIP, ROLE_MEMBER, ROLE_GUEST)
+
+class Roles:
+    """role define"""
+    admin = "admin"
+    vip = "vip"
+    member = "member"
+    guest = "guest"
+
+    # priority of roles
+    _priority_ = (admin, vip, member, guest)
+
+    @classmethod
+    def contains(cls, role):
+        """is there a role definition"""
+        return role in cls._priority_
+
+    @classmethod
+    def permission_check(cls, role, required):
+        """ASD(Access )"""
+        assert cls.contains(role)
+        assert cls.contains(required)
+        return cls._priority_.index(role) <= cls._priority_.index(required)

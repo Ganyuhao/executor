@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from executor.common.policy import enforce
-from executor.common import constant
+from executor.common.constant import Roles
 from executor.common.context import Context
 from executor.database.models.user import Users
 from executor.tests.base import TestCase
@@ -14,15 +14,15 @@ class FakeRequest:
 
 class Faker:
 
-    @enforce(constant.ROLE_ADMIN)
+    @enforce(Roles.admin)
     def admin_only(self, req):
         return True
 
-    @enforce(constant.ROLE_VIP)
+    @enforce(Roles.vip)
     def vip_only(self, req):
         return True
 
-    @enforce(constant.ROLE_MEMBER)
+    @enforce(Roles.member)
     def member_only(self, req):
         return True
 
@@ -35,10 +35,10 @@ class TestPolicyVerify(TestCase):
 
     def setUp(self):
         self.resource = Faker()
-        self.admin_req = self.make_request(constant.ROLE_ADMIN)
-        self.vip_req = self.make_request(constant.ROLE_VIP)
-        self.member_req = self.make_request(constant.ROLE_MEMBER)
-        self.guest_req = self.make_request(constant.ROLE_GUEST)
+        self.admin_req = self.make_request(Roles.admin)
+        self.vip_req = self.make_request(Roles.vip)
+        self.member_req = self.make_request(Roles.member)
+        self.guest_req = self.make_request(Roles.guest)
         self.none_req = self.make_request(None, False)
 
     @staticmethod
