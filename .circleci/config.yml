@@ -50,7 +50,7 @@ jobs:
       - run:
           name: run unittest
           command: |
-            pipenv run stestr run
+            pipenv run stestr run --concurrency 1
       # 生成单元测试覆盖率报告， 并上传到coveralls
       - run:
           name: report coverage

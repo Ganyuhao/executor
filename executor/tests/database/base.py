@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from datetime import datetime
 
 from executor.common.context import Context
 from executor.database.manage import Database

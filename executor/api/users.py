@@ -22,6 +22,7 @@ class UsersApi(Restful):
     # 定义参数类型
     resource_full_fields = {
         'id': fields.Integer,
+        "user_id": fields.String,
         'username': fields.String,
         'password': fields.String,
         'role': fields.String,

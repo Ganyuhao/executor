@@ -7,6 +7,8 @@
 
 import logging
 import copy
+import uuid
+from datetime import datetime
 
 from sqlalchemy import or_
 from sqlalchemy import create_engine
@@ -78,10 +80,12 @@ class Database:
     def create_user(self, ctx, user_model):
         """添加用户"""
         session = self._get_session(ctx)
-        # 调用查询用户函数，如果抛出用户不存在异常，则开始添加用户
+        # 调用查询用户函数，如果用户存, 抛出异常
         if self.user_exist(ctx, user_model):
             raise exceptions.UserAlreadyExistException(
                 identity=user_model.username)
+        user_model.user_id = self._get_uuid()
+        user_model.create_at = self._get_time()
         session.add(user_model)
         return self.get_user(ctx, user_model.username, user_model.password)
 
@@ -97,9 +101,18 @@ class Database:
             Users.id == user_model.id,
             Users.phone == user_model.phone,
             Users.username == user_model.username,
+            Users.user_id == user_model.user_id,
         )
         return self._get_session(ctx).query(Users).filter(
             condition).count() == 1
+
+    def _get_uuid(self):
+        """生成32为 uuid"""
+        return uuid.uuid4().hex
+
+    def _get_time(self):
+        """生成创建时间"""
+        return datetime.now()
 
     @retry_on_exception(InvalidRequestError)
     def get_user(self, ctx, user_identity, password):
@@ -111,6 +124,7 @@ class Database:
             Users.id == user_identity,
             Users.phone == user_identity,
             Users.username == user_identity,
+            Users.user_id == user_identity,
         )
         user = self._get_session(ctx).query(Users).filter(condition).first()
         if not user:
