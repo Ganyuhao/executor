@@ -112,3 +112,8 @@ class IncorrectPasswordException(UnauthorizedException):
 class MissNecessaryFields(BadRequestException):
     """数据表字段缺失"""
     message = "missing necessary database field: %(field)s"
+
+
+class AccessDeniedException(UnauthorizedException):
+    """用户权限不足"""
+    message = "user has insufficient privileges to access the specified api"

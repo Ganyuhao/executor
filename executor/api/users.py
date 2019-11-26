@@ -6,6 +6,8 @@ from flask_restful import marshal
 
 from executor.api.base import Restful
 from executor.database.manage import Users
+from executor.common.constant import Roles
+from executor.common.policy import enforce
 
 
 class UsersApi(Restful):
@@ -34,11 +36,13 @@ class UsersApi(Restful):
         'access_token': fields.String,
     }
 
+    @enforce(Roles.admin)
     def get(self, req):
         """list users"""
         ctx = req.ctx
         return ctx.db_base.list_users(ctx)
 
+    @enforce(Roles.guest)
     def post(self, req):
         """注册"""
         args = self.parser.parse_args()
