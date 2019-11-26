@@ -7,11 +7,11 @@
 
 from sqlalchemy import Column, String, Boolean
 
-from executor.database.models.base import GeneralModel, Model
+from executor.database.models.base import Model
 from executor.tests.database.base import DatabaseTestCase
 
 
-class TokenModel(Model, GeneralModel):
+class TokenModel(Model):
     __tablename__ = "tokens"
     token = Column(String(32), nullable=True)
     enabled = Column(Boolean, nullable=False)

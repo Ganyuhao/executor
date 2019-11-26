@@ -72,7 +72,12 @@ class _ModelBase:
             convert = cls.type_mappers[_type.__class__]
             value = model.get(name)
             if not value and value is None:
-                if not col.nullable and not col.primary_key:
+                # 如果字段为创建时间 并且必填 则跳过
+                if name == "create_at" and not col.nullable:
+                    continue
+                # 如字段为主键 or 外键 允许为空
+                if not col.nullable and not col.primary_key\
+                        and not col.unique:
                     # 不允许为空，且未传值，则抛出异常
                     raise MissNecessaryFields(field=name)
                 continue

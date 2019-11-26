@@ -17,9 +17,9 @@ class UsersApi(Restful):
     # 扩充父级解析器
     parser = Restful.parser.copy()
     # 参数解析
-    parser.add_argument('username', required=True, type=str)
-    parser.add_argument('password', required=True, type=str)
-    parser.add_argument('phone', required=True, type=str)
+    parser.add_argument("username", required=True, type=str)
+    parser.add_argument("password", required=True, type=str)
+    parser.add_argument("phone", required=True, type=str)
 
     # 定义参数类型
     resource_full_fields = {
@@ -45,8 +45,9 @@ class UsersApi(Restful):
     @enforce(Roles.guest)
     def post(self, req):
         """注册"""
-        args = self.parser.parse_args()
+        args = self.parser.parse_args(req, strict=True)
         user = Users.from_json(args)
         ctx = req.ctx
         user_data = ctx.db_base.create_user(ctx, user)
+        # 注册成功后，我并没有返回token，需要登录才能返回
         return marshal(user_data, self.resource_full_fields)
