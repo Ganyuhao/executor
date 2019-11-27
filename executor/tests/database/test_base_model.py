@@ -9,7 +9,7 @@ from executor.exceptions import MissNecessaryFields
 from sqlalchemy import Column, String, Integer, Boolean, DateTime
 
 
-class FakeModel(Model):
+class UserModel(Model):
     __tablename__ = "fake_table"
     id = Column(Integer, autoincrement=True, primary_key=True, unique=True)
     age = Column(Integer)
@@ -34,7 +34,7 @@ class TestBaseDataModel(DatabaseTestCase):
             "enabled": True,
             "blocked": False,
         }
-        fm = FakeModel(**expect)
+        fm = UserModel(**expect)
         self.assertEqual(expect, fm.to_json())
 
     def test_normal_from_json(self):

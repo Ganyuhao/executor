@@ -14,7 +14,7 @@ class Users(Model):
     """user表ORM模型"""
     __tablename__ = "users"
     id = Column(Integer, autoincrement=True, primary_key=True, unique=True)
-    user_id = Column(Integer, unique=True, nullable=False)
+    user_id = Column(String(64), unique=True, nullable=False)
     username = Column(String(64), nullable=False, unique=True)
     password = Column(String(64), nullable=False)
     role = Column(String(32), nullable=True, default=Roles.member)

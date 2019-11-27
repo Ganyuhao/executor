@@ -4,10 +4,8 @@
 # @Author   : Mr.Gan
 # Software  : PyCharm
 """database.mange，定义了表的操作方法"""
-import hashlib
-import os
+
 import time
-import base64
 import logging
 import copy
 import uuid
@@ -24,6 +22,7 @@ from executor.database.models.tokens import Tokens
 from executor import exceptions
 from executor.common.utils import retry_on_exception
 from executor.database.models.base import Model
+from executor.database.token_manage import TokenManage
 
 CONF = Manage()
 LOG = logging.getLogger(__name__)
@@ -36,9 +35,7 @@ class Database:
                         "@%(host)s:%(port)s/%(database)s?" \
                         "charset=utf8"
 
-    def __init__(self, aging=259200, database_name="fucker_tester"):
-        """token有效期默认 72 小时"""
-        self.aging = aging
+    def __init__(self, database_name="fucker_tester"):
         self.database_name = database_name
         self._connect_info = {
             "user": CONF.database_username,
@@ -155,23 +152,24 @@ class Database:
     @retry_on_exception(InvalidRequestError)
     def issue_token(self, ctx, user_model):
         """不存在则创建token，存在则验证token"""
+        token_manage = TokenManage()
         session = self._get_session(ctx)
         token = self.get_token(ctx, user_model)
         create_time = time.time()
         if not token:
             # token为空则 添加
             token_model = Tokens(
-                token=self._generate_token(create_time),
+                token=token_manage.generate_token(create_time),
                 u_id=user_model.id,
                 create_at=self._get_datetime(create_time),
                 expire_at=self._get_datetime(
-                    float(create_time + self.aging)
+                    float(create_time + token_manage.aging)
                 )
             )
             session.add(token_model)
         else:
             # token过期则更新
-            g_token = self._checkout_token(token.token, create_time)
+            g_token = token_manage.checkout_token(token.token, create_time)
             if not g_token.get("code"):
                 # 更新token
                 session.query(Tokens).filter(
@@ -188,7 +186,7 @@ class Database:
                     Tokens.u_id == user_model.id
                 ).update(
                     {"expire_at": self._get_datetime(
-                        create_time + self.aging
+                        create_time + token_manage.aging
                     )}
                 )
 
@@ -200,47 +198,3 @@ class Database:
             Tokens.u_id == user_model.id
         ).first()
         return token
-
-    def _generate_token(self, times):
-        """生成token"""
-        # 加密
-        sha1_token = hashlib.sha1(os.urandom(24)).hexdigest()
-        create_time = int(times)
-        time_group = str(create_time) + ":" + str(self.aging)
-        time_group = time_group.encode("utf8")
-        # 当前时间+时间间隔 生成base64编码 并且去掉 '='
-        time_token = base64.urlsafe_b64encode(time_group)\
-            .decode("utf8").strip().lstrip().rstrip("=")
-        token = sha1_token + time_token
-        return token
-
-    def _checkout_token(self, token, _create=None):
-        """验证token"""
-        result = {}
-        decode_time = self._safe_b64decode(token[40:]).decode("utf8")
-        # 分割时间字符串
-        decode_split_time = decode_time.split(":")
-        # 解密创建时间
-        decode_create_time = decode_split_time[0]
-        # 解密时效
-        decode_aging_time = decode_split_time[1]
-        # 获取当前时间
-        now_time = int(time.time())
-        # 时间差
-        difference_time = now_time - int(decode_create_time)
-        # 判断 是否失效 如果失效state值为0，生成新的token
-        if difference_time > int(decode_aging_time):
-            result["code"] = 0
-            result["token"] = self._generate_token(_create)
-        else:
-            result["code"] = 1
-            result["token"] = token
-        return result
-
-    @staticmethod
-    def _safe_b64decode(hax):
-        """base64'='符号添加"""
-        length = len(hax) % 4
-        for i in range(length):
-            hax = hax + "="
-        return base64.b64decode(hax)
