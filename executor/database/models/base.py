@@ -75,9 +75,9 @@ class _ModelBase:
                 # 如果字段为创建时间 并且必填 则跳过
                 if name == "create_at" and not col.nullable:
                     continue
-                # 如字段为主键 or 外键 允许为空
+                # 如字段为主键 or 外键 为 user_id
                 if not col.nullable and not col.primary_key\
-                        and not col.unique:
+                        and not col.name == "user_id":
                     # 不允许为空，且未传值，则抛出异常
                     raise MissNecessaryFields(field=name)
                 continue

@@ -7,15 +7,13 @@
 
 from sqlalchemy import Column, String, Boolean
 
-from executor.database.models.base import Model
+from executor.database.models.base import Model, GeneralModel
 from executor.tests.database.base import DatabaseTestCase
 
 
-class TokenModel(Model):
+class TokenModel(Model, GeneralModel):
     __tablename__ = "tokens"
     token = Column(String(32), nullable=True)
-    enabled = Column(Boolean, nullable=False)
-    blocked = Column(Boolean)
 
 
 class TestBaseDataModel(DatabaseTestCase):
@@ -24,8 +22,6 @@ class TestBaseDataModel(DatabaseTestCase):
         """测试tokens表的字段是有继承于通用模型类"""
         expect = {
             "token": "adadadadadadwadad",
-            "enabled": True,
-            "blocked": False,
         }
         fm = TokenModel(**expect)
         self.assertTrue(hasattr(fm, "id"))
