@@ -48,7 +48,7 @@ class TestBaseDataModel(DatabaseTestCase):
             "enabled": True,
             "blocked": False,
         }
-        fm = FakeModel.from_json(expect)
+        fm = UserModel.from_json(expect)
         self.assertEqual(expect, fm.to_json())
 
     def test_miss_arg_required(self):
@@ -61,7 +61,7 @@ class TestBaseDataModel(DatabaseTestCase):
             "enabled": True,
             "blocked": False,
         }
-        self.assertRaises(MissNecessaryFields, FakeModel.from_json, err_model)
+        self.assertRaises(MissNecessaryFields, UserModel.from_json, err_model)
 
     def test_miss_primary_key(self):
         expect = {
@@ -73,7 +73,7 @@ class TestBaseDataModel(DatabaseTestCase):
             "enabled": True,
             "blocked": False,
         }
-        model = FakeModel.from_json(expect)
+        model = UserModel.from_json(expect)
         expect["id"] = None
         self.assertEqual(expect, model.to_json())
 
@@ -88,7 +88,7 @@ class TestBaseDataModel(DatabaseTestCase):
             "enabled": True,
             "blocked": False,
         }
-        model = FakeModel.from_json(expect)
+        model = UserModel.from_json(expect)
         expect["create_at"] = datetime.strptime(
             "2019-10-12 11:23:25", "%Y-%m-%d %H:%M:%S")
         self.assertEqual(expect, model.to_json())

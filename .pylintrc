@@ -139,10 +139,13 @@ disable=print-statement,
         deprecated-sys-function,
         exception-escape,
         comprehension-escape,
-        # 禁止检查变量未引用
+        # 禁止检查参数未引用
         unused-argument,
         # 禁止检查self未被引用需要修饰为类方法
-        no-self-use
+        no-self-use,
+        # 禁止检查局部变量未引用
+        unused-variable
+
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

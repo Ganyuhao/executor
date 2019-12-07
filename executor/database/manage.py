@@ -174,7 +174,7 @@ class Database:
                 # 更新token
                 session.query(Tokens).filter(
                     Tokens.u_id == user_model.id).update(
-                    {"token": g_token.get("token")})
+                        {"token": g_token.get("token")})
                 # 更新时间
                 session.query(Tokens).filter(
                     Tokens.u_id == user_model.id
@@ -194,6 +194,7 @@ class Database:
 
     @retry_on_exception(InvalidRequestError)
     def get_token(self, ctx, user_model):
+        """获取token"""
         token = self._get_session(ctx).query(Tokens).filter(
             Tokens.u_id == user_model.id
         ).first()

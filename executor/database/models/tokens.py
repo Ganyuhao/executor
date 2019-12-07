@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-# @Author:      Mr.Gan 
+# @Author:      Mr.Gan
 # @Time:        2019/11/26 21:00
 # @File:        tokens.py
 

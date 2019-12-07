@@ -1,8 +1,5 @@
 # !/usr/bin/env python
 # coding: utf-8
-# @Time     : 2019/11/27 11:57
-# @Author   : Mr.Gan
-# Software  : PyCharm
 """生成与验证token"""
 
 import hashlib
@@ -57,6 +54,6 @@ class TokenManage:
     def _safe_b64decode(hax):
         """base64'='符号添加"""
         length = len(hax) % 4
-        for i in range(length):
+        for index in range(length):
             hax = hax + "="
         return base64.b64decode(hax)
