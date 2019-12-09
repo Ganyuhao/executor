@@ -11,8 +11,8 @@ from executor.api.base import Restful
 
 
 class TokenApi(Restful):
-    """login api"""
-    rule = "login"
+    """get token api"""
+    rule = "token"
 
     # 扩充父级解析器
     parser = Restful.parser.copy()
