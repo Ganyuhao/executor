@@ -5,6 +5,7 @@ fucker-executor的配置信息
 """
 import re
 import sys
+import os
 from functools import partial
 import logging
 from logging.handlers import RotatingFileHandler
@@ -115,6 +116,10 @@ class Manage:
             format=formatter, datefmt=data_fmt, stream=sys.stderr,
             level=self.debug and logging.DEBUG or logging.INFO,
         )
+        # 修复日志路径不存在BUG
+        dir_path = os.path.split(self.log_file)
+        if not os.path.exists(dir_path[0]):
+            os.makedirs(dir_path[0])
         file_handler = RotatingFileHandler(self.log_file)
         file_handler.setFormatter(log_format)
         # Root logger add file handler
