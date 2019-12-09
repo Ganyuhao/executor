@@ -4,6 +4,8 @@
 """使用ORM模型定义USER表"""
 
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from sqlalchemy.orm import relationship
+
 from executor.database.models.base import Model
 from executor.common.constant import Roles
 
@@ -23,3 +25,5 @@ class Users(Model):
     enabled = Column(Boolean, nullable=True, default=True)
     access_token = Column(String(255), default=None, nullable=True)
     extra = Column(String(255), default=None, nullable=True)
+    # 建立双向关系
+    tokens_u = relationship("Tokens", back_populates="users")

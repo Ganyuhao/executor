@@ -35,6 +35,10 @@ def integer_convert(value):
 
 class _ModelBase:
     """Model元类的基类，也是所有数据表的基类"""
+    # 通用字段
+    id = Column(Integer, autoincrement=True, primary_key=True, unique=True)
+    create_at = Column(DateTime, nullable=True)
+    update_at = Column(DateTime, nullable=True)
 
     # 数据库字段与python数据类型转换对应表
     type_mappers = {
@@ -72,7 +76,12 @@ class _ModelBase:
             convert = cls.type_mappers[_type.__class__]
             value = model.get(name)
             if not value and value is None:
-                if not col.nullable and not col.primary_key:
+                # 如果字段为创建时间 并且必填 则跳过
+                if name == "create_at" and not col.nullable:
+                    continue
+                # 如字段为主键 or 外键 为 user_id
+                if not col.nullable and not col.primary_key\
+                        and not col.name == "user_id":
                     # 不允许为空，且未传值，则抛出异常
                     raise MissNecessaryFields(field=name)
                 continue
@@ -86,10 +95,3 @@ class _ModelBase:
 
 
 Model = declarative_base(cls=_ModelBase)
-
-
-class GeneralModel:
-    """通用模型"""
-    id = Column(Integer, autoincrement=True, primary_key=True, unique=True)
-    create_at = Column(DateTime, nullable=True)
-    update_at = Column(DateTime, nullable=True)

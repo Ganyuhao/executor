@@ -5,17 +5,15 @@
 # Software  : PyCharm
 """通用模型测试"""
 
-from sqlalchemy import Column, String, Boolean
+from sqlalchemy import Column, String
 
-from executor.database.models.base import GeneralModel, Model
+from executor.database.models.base import Model
 from executor.tests.database.base import DatabaseTestCase
 
 
-class TokenModel(Model, GeneralModel):
+class TokenModel(Model):
     __tablename__ = "tokens"
     token = Column(String(32), nullable=True)
-    enabled = Column(Boolean, nullable=False)
-    blocked = Column(Boolean)
 
 
 class TestBaseDataModel(DatabaseTestCase):
@@ -24,8 +22,6 @@ class TestBaseDataModel(DatabaseTestCase):
         """测试tokens表的字段是有继承于通用模型类"""
         expect = {
             "token": "adadadadadadwadad",
-            "enabled": True,
-            "blocked": False,
         }
         fm = TokenModel(**expect)
         self.assertTrue(hasattr(fm, "id"))

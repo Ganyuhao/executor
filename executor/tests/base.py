@@ -29,7 +29,7 @@ def get_config_item(item, default, type_c):
 class TestCase(unittest.TestCase):
     config_items = {
         "host": get_config_item("host", "0.0.0.0", str),
-        "port": get_config_item("port", "5001", int),
+        "port": get_config_item("port", "50001", int),
         "database_port": get_config_item("database_port", 3306, int),
         "debug": get_config_item("debug", True, bool),
         "log_file": get_config_item("log_file", tempfile.mktemp(), str),

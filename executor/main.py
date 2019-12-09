@@ -10,7 +10,6 @@ import click
 from flask import Flask
 
 from executor.common.config import Manage, IpAddressParamType, PortParamType
-
 from executor.api.register import register_resource
 
 

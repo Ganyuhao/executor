@@ -5,12 +5,14 @@
 # Software  : PyCharm
 """登录 API """
 
+from executor.common.constant import Roles
+from executor.common.policy import enforce
 from executor.api.base import Restful
 
 
-class Login(Restful):
-    """login api"""
-    rule = "login"
+class TokenApi(Restful):
+    """get token api"""
+    rule = "token"
 
     # 扩充父级解析器
     parser = Restful.parser.copy()
@@ -18,6 +20,7 @@ class Login(Restful):
     parser.add_argument("username", required=True, type=str)
     parser.add_argument("password", required=True, type=str)
 
+    @enforce(required=Roles.guest)
     def post(self, req):
         """登录"""
         args = self.parser.parse_args()
@@ -27,4 +30,8 @@ class Login(Restful):
         user_data = ctx.db_base.get_user(
             ctx, username, password
         )
-        return "成功", 200, {"X-AUTH-TOKEN": user_data.token}
+        message = {
+            "Message": "Success",
+            "code": 0
+        }
+        return message, 200, {"X-AUTH-TOKEN": user_data.token}

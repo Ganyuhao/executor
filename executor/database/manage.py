@@ -5,6 +5,7 @@
 # Software  : PyCharm
 """database.mange，定义了表的操作方法"""
 
+import time
 import logging
 import copy
 import uuid
@@ -17,9 +18,11 @@ from sqlalchemy.exc import InvalidRequestError  # 数据库死锁异常
 
 from executor.common.config import Manage
 from executor.database.models.user import Users
+from executor.database.models.tokens import Tokens
 from executor import exceptions
 from executor.common.utils import retry_on_exception
 from executor.database.models.base import Model
+from executor.database.token_manage import TokenManage
 
 CONF = Manage()
 LOG = logging.getLogger(__name__)
@@ -114,6 +117,10 @@ class Database:
         """生成创建时间"""
         return datetime.now()
 
+    def _get_datetime(self, create_time):
+        """把时间戳转换为datetime对象"""
+        return datetime.fromtimestamp(create_time)
+
     @retry_on_exception(InvalidRequestError)
     def get_user(self, ctx, user_identity, password):
         """
@@ -131,6 +138,8 @@ class Database:
             raise exceptions.UserNotExistException(identity=user_identity)
         if user.password != password:
             raise exceptions.IncorrectPasswordException()
+        token = self.issue_token(ctx, user)
+        setattr(user, "token", token.token)
         return user
 
     @retry_on_exception(InvalidRequestError)
@@ -139,3 +148,54 @@ class Database:
         user = self.get_user(ctx, user_identity, password)
         session = self._get_session(ctx)
         session.delete(user)
+
+    @retry_on_exception(InvalidRequestError)
+    def issue_token(self, ctx, user_model):
+        """不存在则创建token，存在则验证token"""
+        token_manage = TokenManage()
+        session = self._get_session(ctx)
+        token = self.get_token(ctx, user_model)
+        create_time = time.time()
+        if not token:
+            # token为空则 添加
+            token_model = Tokens(
+                token=token_manage.generate_token(create_time),
+                u_id=user_model.id,
+                create_at=self._get_datetime(create_time),
+                expire_at=self._get_datetime(
+                    float(create_time + token_manage.aging)
+                )
+            )
+            session.add(token_model)
+        else:
+            # token过期则更新
+            g_token = token_manage.checkout_token(token.token, create_time)
+            if not g_token.get("code"):
+                # 更新token
+                session.query(Tokens).filter(
+                    Tokens.u_id == user_model.id).update(
+                        {"token": g_token.get("token")})
+                # 更新时间
+                session.query(Tokens).filter(
+                    Tokens.u_id == user_model.id
+                ).update(
+                    {"update_at": self._get_datetime(create_time)}
+                )
+                # 过期时间
+                session.query(Tokens).filter(
+                    Tokens.u_id == user_model.id
+                ).update(
+                    {"expire_at": self._get_datetime(
+                        create_time + token_manage.aging
+                    )}
+                )
+
+        return self.get_token(ctx, user_model)
+
+    @retry_on_exception(InvalidRequestError)
+    def get_token(self, ctx, user_model):
+        """获取token"""
+        token = self._get_session(ctx).query(Tokens).filter(
+            Tokens.u_id == user_model.id
+        ).first()
+        return token
