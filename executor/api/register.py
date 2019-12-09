@@ -7,7 +7,7 @@ from flask import request
 from flask_restful import Api
 
 from executor.api.users import UsersApi
-from executor.api.login import LoginApi
+from executor.api.login import TokenApi
 from executor.exceptions import FuckerTesterException
 from executor.api.hooks import HookDispatcher, ContextHook
 
@@ -42,6 +42,6 @@ def register_resource(app):
     LOG.debug("add app api resource")
     api = Api(app, prefix="/api")
     UsersApi.setup(api)
-    LoginApi.setup(api)
+    TokenApi.setup(api)
 
     LOG.debug("register flask app done")

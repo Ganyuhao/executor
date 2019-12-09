@@ -9,7 +9,7 @@ from executor.exceptions import MissNecessaryFields
 from sqlalchemy import Column, String, Integer, Boolean, DateTime
 
 
-class UserModel(Model):
+class FakeModel(Model):
     __tablename__ = "fake_table"
     id = Column(Integer, autoincrement=True, primary_key=True, unique=True)
     age = Column(Integer)
@@ -34,7 +34,7 @@ class TestBaseDataModel(DatabaseTestCase):
             "enabled": True,
             "blocked": False,
         }
-        fm = UserModel(**expect)
+        fm = FakeModel(**expect)
         self.assertEqual(expect, fm.to_json())
 
     def test_normal_from_json(self):
@@ -48,7 +48,7 @@ class TestBaseDataModel(DatabaseTestCase):
             "enabled": True,
             "blocked": False,
         }
-        fm = UserModel.from_json(expect)
+        fm = FakeModel.from_json(expect)
         self.assertEqual(expect, fm.to_json())
 
     def test_miss_arg_required(self):
@@ -61,7 +61,7 @@ class TestBaseDataModel(DatabaseTestCase):
             "enabled": True,
             "blocked": False,
         }
-        self.assertRaises(MissNecessaryFields, UserModel.from_json, err_model)
+        self.assertRaises(MissNecessaryFields, FakeModel.from_json, err_model)
 
     def test_miss_primary_key(self):
         expect = {
@@ -73,7 +73,7 @@ class TestBaseDataModel(DatabaseTestCase):
             "enabled": True,
             "blocked": False,
         }
-        model = UserModel.from_json(expect)
+        model = FakeModel.from_json(expect)
         expect["id"] = None
         self.assertEqual(expect, model.to_json())
 
@@ -88,7 +88,7 @@ class TestBaseDataModel(DatabaseTestCase):
             "enabled": True,
             "blocked": False,
         }
-        model = UserModel.from_json(expect)
+        model = FakeModel.from_json(expect)
         expect["create_at"] = datetime.strptime(
             "2019-10-12 11:23:25", "%Y-%m-%d %H:%M:%S")
         self.assertEqual(expect, model.to_json())

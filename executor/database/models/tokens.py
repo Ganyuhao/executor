@@ -8,10 +8,10 @@
 
 from sqlalchemy import Column, String, ForeignKey, Integer, DateTime
 from sqlalchemy.orm import relationship
-from executor.database.models.base import Model, GeneralModel
+from executor.database.models.base import Model
 
 
-class Tokens(Model, GeneralModel):
+class Tokens(Model):
     """token 表ORM模型"""
     __tablename__ = "token"
     token = Column(String(64), nullable=False, unique=True)

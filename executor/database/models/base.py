@@ -35,6 +35,10 @@ def integer_convert(value):
 
 class _ModelBase:
     """Model元类的基类，也是所有数据表的基类"""
+    # 通用字段
+    id = Column(Integer, autoincrement=True, primary_key=True, unique=True)
+    create_at = Column(DateTime, nullable=True)
+    update_at = Column(DateTime, nullable=True)
 
     # 数据库字段与python数据类型转换对应表
     type_mappers = {
@@ -91,10 +95,3 @@ class _ModelBase:
 
 
 Model = declarative_base(cls=_ModelBase)
-
-
-class GeneralModel:
-    """通用模型"""
-    id = Column(Integer, autoincrement=True, primary_key=True, unique=True)
-    create_at = Column(DateTime, nullable=True)
-    update_at = Column(DateTime, nullable=True)

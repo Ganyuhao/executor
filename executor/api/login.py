@@ -10,7 +10,7 @@ from executor.common.policy import enforce
 from executor.api.base import Restful
 
 
-class LoginApi(Restful):
+class TokenApi(Restful):
     """login api"""
     rule = "login"
 
